@@ -56,13 +56,13 @@ config['custom_packages'] = [
     # Core System & Microcode (REQUIRED)
     'linux',
     'linux-firmware',
-    'intel-ucode', # <-- Correct for your Intel i7
+    'intel-ucode', # Correct for your Intel i7 X201
     
     # Graphics Drivers (CRITICAL for Hyprland/Wayland)
     'mesa',
     'vulkan-intel',
 
-    # Networking & Bluetooth
+    # Networking & Bluetooth & SSH
     'iwd',          # Wireless networking daemon (iwctl)
     'dhcpcd',       # DHCP client
     'openssh',
@@ -97,6 +97,7 @@ config['custom_packages'] = [
 
     # Development & Productivity
     'code',                 # Visual Studio Code (open-source version)
+    'nano',                 # Console text editor
 
     # Audio 
     'pipewire',             
@@ -107,8 +108,8 @@ config['custom_packages'] = [
     # Fonts (CRITICAL for icons in Waybar/Starship)
     'firefox',      
     'ttf-dejavu',   
-    'ttf-nerd-fonts-symbols', 
-    'nano',
+    'ttf-nerd-fonts-symbols'
+    # NOTE: No trailing comma on the last list item to prevent syntax errors on older Python environments.
 ]
 
 # --- 6. Execution Block ---
@@ -129,7 +130,7 @@ if installation_session.bootstrap():
     installation_session.add_service('sddm.service', enabled=True)
     installation_session.add_service('iwd.service', enabled=True)
     installation_session.add_service('sshd.service', enabled=True)
-    installation_session.add_service('bluetooth.service', enabled=True) # Enable Bluetooth
+    installation_session.add_service('bluetooth.service', enabled=True) 
     
     print('Starting post-install configuration (YAY and Dotfiles)...')
 
@@ -154,7 +155,7 @@ if installation_session.bootstrap():
     print('NOTE: SDDM will automatically start. Select "Hyprland" session from the login screen.')
     print('*** IMPORTANT NEXT STEPS ***')
     print('1. Log in as "arch" (password 1235). The default shell will now be Fish.')
-    print('2. Run the dotfiles setup script: /home/arch/dotfiles/install.sh (or similar command).')
-    print('3. Install AUR apps (Obsidian, Quickshell): sudo -u arch yay -S quickshell obsidian')
+    print('2. Run the post-install script: bash post_install_setup.sh')
+    print('3. The post-install script handles the rest (AUR apps and dotfiles setup).')
 else:
     print('Installation failed. Check the logs for details.')
